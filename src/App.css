@@ -88,7 +88,6 @@ table.additionTable tr td:first-child {
   flex-direction: column;
 }
 
-
 /* Menu */
 .menu {
   width: 100%;
@@ -96,7 +95,7 @@ table.additionTable tr td:first-child {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 2.5rem 0;
+  margin-top: 2.5rem;
 }
 
 .menuButtons {
@@ -105,4 +104,6 @@ table.additionTable tr td:first-child {
 
 .menuButton {
   margin: 0.25rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
 }

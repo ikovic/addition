@@ -4,7 +4,7 @@ import { MODE } from './../constants';
 
 const Menu = ({ onModeSelect }) => (
   <div className="menu">
-    Odaberi nacin igre:
+    <h3>Odaberi nacin igre:</h3>
     <div className="menuButtons">
       <button className="menuButton" onClick={() => onModeSelect(MODE.ADDITION)}>
         Zbrajanje
