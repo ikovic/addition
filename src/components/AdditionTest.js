@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import * as R from 'ramda';
 
 import heart from './../heart.svg';
+import clock from './../clock.svg';
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -113,7 +114,10 @@ class AdditionTest extends PureComponent {
           <b>{counter}:</b> {x} + {y} ={' '}
           <input type="number" onChange={this.handleInputChange} value={input} ref={this.inputRef} />
         </span>
-        <div>{timerValue}</div>
+        <div className="timer">
+          <img src={clock} alt="clock" className="clock" />
+          {timerValue}
+        </div>
       </div>
     );
   }
