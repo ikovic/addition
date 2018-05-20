@@ -19,7 +19,6 @@ class App extends Component {
     const bigRows = R.range(11, 21);
     const columns = R.range(0, 11);
     const bigColumns = R.range(10, 21);
-    const hugeRows = R.range(21, 31);
     const isAddition = mode === MODE.ADDITION;
 
     if (mode === MODE.START) {
@@ -29,9 +28,8 @@ class App extends Component {
     return (
       <div className="mainLayout">
         <div className="tablesRow">
-          <Table rows={rows} columns={columns} isAddition={isAddition} />
-          <Table rows={bigRows} columns={columns} isAddition={isAddition} />
-          {!isAddition && <Table rows={hugeRows} columns={bigColumns} isAddition={isAddition} />}
+          <Table rows={isAddition ? rows : bigRows} columns={columns} isAddition={isAddition} />
+          <Table rows={bigRows} columns={isAddition ? columns : bigColumns} isAddition={isAddition} />
         </div>
         <div className="testRow">
           <Test isAddition={isAddition} onFinish={() => this.setMode(MODE.START)} />
