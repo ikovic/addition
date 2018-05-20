@@ -8,7 +8,9 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-class AdditionTest extends PureComponent {
+const TIMER_VALUE = 12;
+
+class Test extends PureComponent {
   state = {
     x: 0,
     y: 0,
@@ -16,13 +18,13 @@ class AdditionTest extends PureComponent {
     counter: 0,
     lives: 3,
     timerId: null,
-    timerValue: 10,
+    timerValue: TIMER_VALUE,
   };
 
   inputRef = React.createRef();
 
   componentDidMount() {
-    this.generateAddends();
+    this.generateTerms();
     document.addEventListener('keypress', this.handleKeypress);
   }
 
@@ -38,9 +40,10 @@ class AdditionTest extends PureComponent {
 
   focusInput = () => this.inputRef.current.focus();
 
-  generateAddends() {
+  generateTerms() {
+    const { isAddition } = this.props;
     const x = getRandomInt(1, 19);
-    const y = getRandomInt(1, 20 - x);
+    const y = isAddition ? getRandomInt(1, 20 - x) : getRandomInt(1, x);
 
     this.startTimer();
 
@@ -56,6 +59,25 @@ class AdditionTest extends PureComponent {
     );
   }
 
+  finishGame(didWin = true) {
+    const { onFinish } = this.props;
+    const message = didWin ? 'Bravo! Pobijedila si :)' : 'Izgubila si :(';
+
+    alert(message);
+    this.setState(
+      {
+        x: 0,
+        y: 0,
+        input: '',
+        counter: 0,
+        lives: 3,
+        timerId: null,
+        timerValue: TIMER_VALUE,
+      },
+      onFinish
+    );
+  }
+
   handleInputChange = e => {
     this.setState({ input: e.target.value });
   };
@@ -65,18 +87,27 @@ class AdditionTest extends PureComponent {
 
     switch (lives) {
       case 0:
-        return alert('Izgubila si! :(');
+        return this.finishGame(false);
       case 10:
-        return alert('Bravo! Pobijedila si! :)');
+        return this.finishGame(true);
       default:
-        return this.generateAddends();
+        return this.generateTerms();
     }
   };
 
-  handleSubmit = () => {
+  checkResult() {
     const { x, y, input } = this.state;
+    const { isAddition } = this.props;
 
-    if (x + y !== Number(input)) {
+    if (!isAddition) {
+      return x - y !== Number(input);
+    }
+
+    return x + y !== Number(input);
+  }
+
+  handleSubmit = () => {
+    if (this.checkResult()) {
       return this.setState(state => ({ lives: state.lives - 1 }), this.handleMove);
     } else {
       return this.setState(state => ({ lives: state.lives + 1 }), this.handleMove);
@@ -100,18 +131,20 @@ class AdditionTest extends PureComponent {
 
       this.setState({ timerValue: newTimerValue });
     }, 1000);
-    this.setState({ timerId: newTimerId, timerValue: 10 });
+    this.setState({ timerId: newTimerId, timerValue: TIMER_VALUE });
   };
 
   render() {
     const { x, y, input, counter, timerValue, lives } = this.state;
+    const { isAddition } = this.props;
+
     return (
       <div className="test">
         <div className="hearts">
           {R.range(0, lives).map(idx => <img key={idx} className="heart" alt="heart" src={heart} />)}
         </div>
         <span className="calculator">
-          <b>{counter}:</b> {x} + {y} ={' '}
+          <b>{counter}:</b> {x} {isAddition ? '+' : '-'} {y} ={' '}
           <input type="number" onChange={this.handleInputChange} value={input} ref={this.inputRef} />
         </span>
         <div className="timer">
@@ -123,4 +156,4 @@ class AdditionTest extends PureComponent {
   }
 }
 
-export default AdditionTest;
+export default Test;

@@ -87,3 +87,22 @@ table.additionTable tr td:first-child {
   display: flex;
   flex-direction: column;
 }
+
+
+/* Menu */
+.menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2.5rem 0;
+}
+
+.menuButtons {
+  margin: 0.5rem;
+}
+
+.menuButton {
+  margin: 0.25rem;
+}
